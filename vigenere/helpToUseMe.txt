@@ -1,0 +1,9 @@
+Help :
+
+To use graphic application :
+#python3 app.py
+
+To help in argument application :
+#python3 vigenere_cesar.py -h
+#python3 attacks_cesar.py -h
+#python3 attacks_vigenere.py -h
