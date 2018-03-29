@@ -80,8 +80,8 @@ def define_space(s, d, str_authorized, level_verbose=DEFAULT_LEVEL_VERBOSE):
     (s, memory) = clean_with_memory(s, str_authorized, level_verbose)
     current = 0
     size = len(s)
-    biggest_words = [""]*(size + 1)
     tab = [0]*(size + 1)
+    biggest_words = [""]*(size + 1)
     if (level_verbose >= LEVEL_ONE_VERBOSE):
         print("Calculate scores for windows of size = {}".format(SIZE_WINDOW))
     while (current <= size):
@@ -102,11 +102,7 @@ def define_space(s, d, str_authorized, level_verbose=DEFAULT_LEVEL_VERBOSE):
             #   pour le retrouver lors de la création de la chaîne avec espaces
             if (score > best_score):
                 best_score = score
-                if (level_verbose >= LEVEL_TWO_VERBOSE):
-                    print("Best {} =\t'{}'".format(current, word))
                 biggest_words[current] = word
-            elif (level_verbose >= LEVEL_TWO_VERBOSE):
-                    print("\t\t'{}'".format(word))
         # Si on n'a pas trouvé de plus grand mot pour l'échantillon, on stocke
         #   le mot tel quel.
         if (biggest_words[current] == ""):

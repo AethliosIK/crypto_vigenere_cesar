@@ -174,8 +174,6 @@ class Frame_vigenere(Frame):
             (k, result) = analysis(text_wo, punc, key_len, str_a, self.dico, float(self.percent.get()), int(self.verbose.get()))
             self.text_file_imported.delete("1.0","end-1c")
             self.text_file_imported.insert("end-1c", result)
-            self.text_file_imported.insert("end-1c", result)
-            self.text_file_imported.insert("end-1c", result)
             self.key.set(k)
             self.state_save_file.config(text="File not saved")
 

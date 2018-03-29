@@ -11,7 +11,7 @@ ERREUR = -1
 
 # COINCIDENCE
 # compte l'occurence de chaque lettre dans le texte text.
-# retourne une liste des ces occurences,  t[0] = t['a']
+# retourne une liste des ces occurences,  t[0] = t['a'] en général
 def l_counter(text):
     t = [0] * LEN_ALPHABET
     i = 0

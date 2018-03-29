@@ -69,11 +69,6 @@ if __name__ == "__main__":
         (key_len, text_wo, punc) = coincidence(s, bench, level_verbose)
         possi_len = []
 
-    if args.authorize != None:
-        str_a = args.authorize
-    if args.percent != None:
-        percent = float(args.percent)
-
     if args.frequency:
         (k, result) = analysis(text_wo, punc, key_len, str_a, d, percent.get(), level_verbose)
     else :

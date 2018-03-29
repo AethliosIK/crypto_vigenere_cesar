@@ -94,8 +94,6 @@ def most_plausible(occ_div, most, verbose):
         len_key = max2
         most.append(max1)
         most.remove(max2)
-    if verbose >= LEVEL_ONE_VERBOSE:
-        print("longueurs de la clé :", len_key)
     return (len_key, most)
 
 ## Prend en argument le dictionnaire div:occ,

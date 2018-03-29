@@ -6,7 +6,7 @@ from source.coincidence import *
 from source.kasiski import kasiski
 from source.encrypt_decrypt import encrypt_cesar, decrypt_vigenere
 from source.define_space import define_space
-from source.attacks_cesar import bruteforce_attack_cesar, indexOfMostFrequentLetter
+from source.attacks_cesar import frequency_attack_cesar, indexOfMostFrequentLetter
 from source.dico import *
 from source.util import put_punc
 import itertools
@@ -56,7 +56,7 @@ def offsets(lt, len_key, s_auth, verbose):
             som += dico_dec[(k,k+1)]
         if dico_dec[(0,ind)] != (som % LEN_ALPHABET):
             if dico_l_i[(0,ind)][som % LEN_ALPHABET] >= LIMITE_MIN_BENCH:
-                dico_dec[(0,ind)] = som % LEN_ALPHABET
+                dico_dec[(0,ind)] = (som % LEN_ALPHABET)
     if verbose >= LEVEL_ONE_VERBOSE:
         print("Calcul le décalage entre toutes les lettres")
         if verbose == LEVEL_TWO_VERBOSE:
@@ -92,18 +92,18 @@ def mutual(text, possi_key, punc, len_key, s_auth, dictio, per, verbose=DEFAULT_
     dico = offsets(l_text, len_key, s_auth, verbose)
     if dico == {}:
         print("wrong key length chosen, changed length.")
-        len_key = 0
+        len_key = 2
         if (possi_key != []):
-            max(possi_key)
+            len_key = max(possi_key)
         l_text = inter_text(text, len_key)
         dico = offsets(l_text, len_key, s_auth, verbose)
     theory_key = find_key(dico, len_key, verbose)
     text_w_p = put_punc(text, punc)
     text_d = decrypt_vigenere(text_w_p, theory_key, s_auth)
     if verbose >= LEVEL_ONE_VERBOSE:
-        print("Bruteforce attack to find 1st key's letter offset")
+        print("Cesar's frequency attack to find 1st key's letter offset")
     # teste les 26 clés avec attaque brute
-    (att,key_c) = bruteforce_attack_cesar(text_d, dictio, s_auth, per)
+    (att,key_c) = frequency_attack_cesar(text_d, dictio, s_auth, per)
     str_k = encrypt_cesar(theory_key, key_c, s_auth, "", "", "")
     if verbose >= LEVEL_ONE_VERBOSE:
         print("key :", str_k, "\n")
@@ -132,7 +132,6 @@ def is_in_lang(text, dic, percent_min, percent_max):
     if percent >= percent_min:
         return (True, percent)
     elif percent >= percent_max:
-        print(percent)
         return (False, percent)
     else:
         return (False, ERREUR)
@@ -146,13 +145,13 @@ def decrypt_n_sp(text, key, s_auth, punc, dic, verbose):
 #test les autres lettres les plus fréquentes du livre
 def other_keys(l_lmf, text, key, verbose, s_auth, key_len, dic, punc, per, percent_max, index):
     j = 1
-    while j < len(s_auth):
+    while j < LEN_ALPHABET:
         k = 0
         most = (dic.getTab())[j]
         most_ind = s_auth.index(most)
         while k < key_len:
             index = (l_lmf[k])[0]
-            dec = (index - most_ind) % len(s_auth)
+            dec = (index - most_ind) % LEN_ALPHABET
             c = key[k]
             rep = s_auth[dec]
             key = key[:k] + rep + key[(k+1):]
@@ -185,7 +184,7 @@ def other_mosts(l_lmf, most_ind, s_auth, key, verbose, text, punc, dic, per, per
             while i < len(l):
                 ind = l_lmf.index(l)
                 index = l[i]
-                dec = (index - most_ind) % len(s_auth)
+                dec = (index - most_ind) % LEN_ALPHABET
                 rep = s_auth[dec]
                 c = key[ind]
                 key = key[:ind] + rep + key[(ind+1):]
@@ -225,7 +224,7 @@ def analysis(text, punc, key_len, s_auth, dic, per, verbose=DEFAULT_LEVEL_VERBOS
         l_lmf.append(lmf)
         if verbose == LEVEL_TWO_VERBOSE:
             print("plus frequente du ss-txt",s_auth[index])
-        dec = (index - most_ind) % len(s_auth)
+        dec = (index - most_ind) % LEN_ALPHABET
         key += s_auth[dec]
         i += 1
         if verbose >= LEVEL_ONE_VERBOSE:
